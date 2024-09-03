@@ -6,12 +6,17 @@ on:
     branches: [ main ]
 jobs:
   build:
+    env:
+      CI: true
+    strategy:
+      matrix:
+        node-version: [16.x, 20.x]
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-      - name: Use Node.js version 20
+      - name: Use Node.js version ${{ matrix.node-version }}
         uses: actions/setup-node@v2
         with:
-          node-version: '20'
+          node-version: ${{ matrix.node-version }}
       - run: npm install
       - run: cd client && npm run build
